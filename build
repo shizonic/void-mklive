@@ -1,6 +1,40 @@
-#!/bin/sh
+#!/bin/sh --
+set -e
 
-name="Voidlinux"
+usage() {
+    echo "usage: $(basename "${0}") [target] [arch] [name]"
+    exit 1
+}
+
+mklive() {
+    ./mklive.sh -a "${arch}" \
+        -T "${name} ${version} [$(date +%Y-%m-%d)]" \
+        -k "de_CH-latin1" \
+        -l "de_CH.UTF-8" \
+        -p "${pkgs}"
+}
+
+mkplatformfs() {
+    ./mkplatformfs.sh "${arch}" \
+        -p "${pkgs}"
+}
+
+rootfs() {
+    ./mkrootfs.sh "${arch}"
+}
+
+if [ "${1}" = "-h" ] || [ "${1}" = "--help" ]; then
+    usage
+fi
+
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+target="${1:-live}"
+arch="${2:-x86_64}"
+name="${3:-Voidlinux}"
 version="1.0.0"
 pkgs="
 base-devel
@@ -13,11 +47,14 @@ wget
 inetutils
 xtools
 go
+rust
+cargo
 zsh
 "
 
-sudo ./mklive.sh -a x86_64 \
-    -T "$name $version [$(date +%Y-%m-%d)]" \
-    -k "de_CH-latin1" \
-    -l "de_CH.UTF-8" \
-    -p "$pkgs"
+case "${target}" in
+    live) mklive ;;
+    platformfs) mkplatformfs ;;
+    rootfs) rootfs ;;
+    *) usage ;;
+esac
