@@ -1,0 +1,23 @@
+#!/bin/sh
+
+name="Voidlinux"
+version="1.0.0"
+pkgs="
+base-devel
+void-repo-nonfree
+cryptsetup
+btrfs-progs
+git
+curl
+wget
+inetutils
+xtools
+go
+zsh
+"
+
+sudo ./mklive.sh -a x86_64 \
+    -T "$name $version [$(date +%Y-%m-%d)]" \
+    -k "de_CH-latin1" \
+    -l "de_CH.UTF-8" \
+    -p "$pkgs"
