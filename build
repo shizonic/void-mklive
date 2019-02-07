@@ -10,7 +10,7 @@ mklive() {
     ./mklive.sh -a "${arch}" \
         -T "${name} ${version} [$(date +%Y-%m-%d)]" \
         -k "de_CH-latin1" \
-        -l "de_CH.UTF-8" \
+        -l "en_US.UTF-8" \
         -p "${pkgs}"
 }
 
