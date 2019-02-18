@@ -11,6 +11,9 @@ mklive() {
         -T "${name} ${version} [$(date +%Y-%m-%d)]" \
         -k "de_CH-latin1" \
         -l "en_US.UTF-8" \
+        -r "https://alpha.de.repo.voidlinux.org/current" \
+        -r "https://alpha.de.repo.voidlinux.org/current/nonfree" \
+        -r "/home/tm/code/contrib/void-packages/hostdir/binpkgs/voidvault" \
         -p "${pkgs}"
 }
 
@@ -46,10 +49,14 @@ curl
 wget
 inetutils
 xtools
+python3
 go
 rust
 cargo
 zsh
+tmux
+rakudo
+voidvault
 "
 
 case "${target}" in
