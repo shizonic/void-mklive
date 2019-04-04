@@ -48,6 +48,7 @@ git
 curl
 wget
 inetutils
+wifish
 xtools
 python3
 go
